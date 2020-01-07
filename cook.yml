@@ -1,0 +1,36 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  archive:
+    lang: python3-gdal
+    handler: ./archive
+    image: sptkl/archive:latest 
+    secrets:
+      - recipe-engine
+      - ftp-prefix
+  import:
+    lang: python3-gdal
+    handler: ./import
+    image: sptkl/import:latest
+    secrets:
+      - recipe-engine
+  recipes:
+    lang: python3-http
+    handler: ./recipes
+    image: sptkl/recipes:latest
+    secrets:
+      - recipe-engine
+    build_options:
+      - dev
+  upload:
+    lang: python3-http
+    handler: ./upload
+    image: sptkl/upload:latest
+    secrets:
+      - s3-endpoint-url
+      - s3-access-key-id
+      - s3-secret-access-key
+      - s3-bucket
+    
