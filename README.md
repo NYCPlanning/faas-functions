@@ -4,7 +4,7 @@
 Opensource serverless platform --> [Openfaas](https://www.openfaas.com/)
 
 ## Endpoints: 
-+ /archive
++ `/archive`
     ```json
     POST {
             "dstSRS": "EPSG:4326",
@@ -22,7 +22,7 @@ Opensource serverless platform --> [Openfaas](https://www.openfaas.com/)
             "newFieldNames": []
         }
     ```
-+ /import
++ `/import`
     ```json
     POST {
         "connection" : {
@@ -34,10 +34,10 @@ Opensource serverless platform --> [Openfaas](https://www.openfaas.com/)
         }
     }
     ```
-+ /upload
++ `/upload`
     + posts file to digitalocean spaces
 
-+ /recipes
++ `/recipes`
     + `/api/<schema_name>` : retrieve record level info
     + `/api` : retrieve all info
     + `/schema_names` : retrieve all recipe schema names
