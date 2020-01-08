@@ -1,7 +1,8 @@
 import json
-import datetime
 from sqlalchemy import create_engine
-from .sql import mismatch_sql
+from .mismatch import handle_mismatch
+from .null import handle_null
+from .aggregate import handle_aggregate
 
 def handle(event, context):
     with open("/var/openfaas/secrets/edm-data","r") as secret:
@@ -20,37 +21,15 @@ def handle(event, context):
             'statusCode': 200,
             'body': {'result': [dict(row) for row in result]}
             }
+
     # path for generating mismatches:
     elif event.path == '/mismatch':
-        body = json.loads(event.body)
-        v1 = body.get('v1') # e.g. 19v1
-        v2 = body.get('v2') # e.g. 19v2
-        condo = body.get('condo', 'FALSE') # NULL or condo
-        #. first check if the record already exist: 
-        existence = engine.execute(f'''
-            SELECT EXISTS (SELECT * FROM dcp_pluto.qaqc_mismatch WHERE pair = '{v1} - {v2}')
-            ''').fetchone()
-        
-        # Finalize SQL query
-        if condo == 'TRUE':
-            sql = mismatch_sql.format(v1, v2, condo, "WHERE right(bbl, 4) LIKE '75%%'")
-        else:
-            sql = mismatch_sql.format(v1, v2, condo, '')
-        
-        # if record exisit, drop, else insert
-        if existence[0]: 
-            engine.execute(f'''
-            DELETE FROM dcp_pluto.qaqc_mismatch WHERE pair = '{v1} - {v2}'; 
-            {sql};
-            ''')
-        else: 
-            engine.execute(sql)
-
-        result = engine.execute(f'''
-            SELECT * FROM dcp_pluto.qaqc_mismatch 
-            WHERE pair = '{v1} - {v2}' and condo::boolean is {condo};
-            ''').fetchall()
-        return {
-            'statusCode': 200,
-            'body': {'result': [dict(row) for row in result]}
-            }
+        return handle_mismatch(event.body, engine)
+    
+    # path for generating null comparison:
+    elif event.path == '/null':
+        return handle_null(event.body, engine)
+    
+    # path for generating aggregate variables:
+    elif event.path == '/aggregate':
+        return handle_aggregate(event.body, engine)
