@@ -16,6 +16,7 @@ def handle(event, context):
         SELECT table_name 
         FROM information_schema.tables 
         WHERE table_schema = 'dcp_pluto'
+        AND table_name !~*'qaqc|latest';
         ''').fetchall()
         return {
             'statusCode': 200,
