@@ -10,12 +10,16 @@ functions:
     secrets:
       - recipe-engine
       - ftp-prefix
+    environment:
+      exec_timeout: 6000s
   import:
     lang: python3-gdal
     handler: ./import
     image: sptkl/import:latest
     secrets:
       - recipe-engine
+    environment:
+      exec_timeout: 6000s
   recipes:
     lang: python3-http
     handler: ./recipes
@@ -24,6 +28,8 @@ functions:
       - recipe-engine
     build_options:
       - dev
+    environment:
+      exec_timeout: 6000s
   upload:
     lang: python3-http
     handler: ./upload
@@ -33,4 +39,12 @@ functions:
       - s3-access-key-id
       - s3-secret-access-key
       - s3-bucket
+    environment:
+      exec_timeout: 6000s
+  migrate:
+    lang: python3-gdal
+    handler: ./migrate
+    image: sptkl/migrate:latest
+    environment:
+      exec_timeout: 6000s
     

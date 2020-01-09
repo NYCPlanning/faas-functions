@@ -23,6 +23,17 @@ Opensource serverless platform --> [Openfaas](https://www.openfaas.com/)
                 "newFieldNames": []
             }
         ```
+    + `/migrate`
+        ```json
+        POST {
+                "src_engine":"${BUILD_ENGINE}",
+                "dst_engine": "${EDM_DATA}",
+                "src_schema_name": "public",
+                "dst_schema_name": "dcp_pluto",
+                "src_version": "pluto",
+                "dst_version": "${VERSION}"
+            }
+        ```
     + `/import`
         ```json
         POST {
