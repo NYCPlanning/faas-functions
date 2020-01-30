@@ -8,11 +8,11 @@ functions:
     handler: ./pluto-qaqc
     image: sptkl/pluto-qaqc:latest
     secrets:
-      - edm-data
+      - edm-data-readonly
     build_options:
       - dev
     environment:
       exec_timeout: 100s
     labels:
-      "com.openfaas.scale.min": "8"
+      "com.openfaas.scale.min": "10"
       "com.openfaas.scale.max": "15"

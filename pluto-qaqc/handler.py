@@ -5,7 +5,7 @@ from .null import handle_null
 from .aggregate import handle_aggregate
 
 def handle(event, context):
-    with open("/var/openfaas/secrets/edm-data","r") as secret:
+    with open("/var/openfaas/secrets/edm-data-readonly","r") as secret:
         edm_data = secret.read()
     
     engine = create_engine(edm_data)
