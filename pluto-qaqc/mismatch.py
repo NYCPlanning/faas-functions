@@ -1,4 +1,3 @@
-from .sql import mismatch_sql
 import json
 
 def handle_mismatch(body, engine): 

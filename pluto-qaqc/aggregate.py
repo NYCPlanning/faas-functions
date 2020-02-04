@@ -1,4 +1,3 @@
-from .sql import aggregate_sql
 import json
 
 def handle_aggregate(body, engine): 

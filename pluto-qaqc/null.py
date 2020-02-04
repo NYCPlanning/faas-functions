@@ -1,4 +1,3 @@
-from .sql import null_sql
 import json
 
 def handle_null(body, engine): 
