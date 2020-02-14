@@ -1,0 +1,4 @@
+language: python3-gdal
+fprocess: python3 index.py
+welcome_message: |
+  Hey! This is based on osgeo/gdal:ubuntu-small-latest
